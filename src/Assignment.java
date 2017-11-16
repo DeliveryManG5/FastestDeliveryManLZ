@@ -49,7 +49,6 @@ public class Assignment extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) orderTable.getModel();
         Object[] col = new Object[4];
         for (int a = 0; a < List.size(); a++) {
-            //row[0] = List.get(a).getFoodID();
             col[0] = List.get(a).getFoodName();
             col[1] = List.get(a).getFoodPrice();
             col[2] = List.get(a).getQty();
