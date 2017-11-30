@@ -76,6 +76,7 @@ public class MenuJFrame extends javax.swing.JFrame {
         logoutButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 255));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -329,6 +330,7 @@ public class MenuJFrame extends javax.swing.JFrame {
             
             DefaultTableModel model = (DefaultTableModel)menuTable.getModel();
             model.setRowCount(0);
+            JOptionPane.showMessageDialog(this, "Food added into cart!");
             showMenuTable(); 
             }              
         } catch (SQLException ex) {
