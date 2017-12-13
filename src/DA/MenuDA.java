@@ -39,6 +39,7 @@ public class MenuDA {
     }
 
     public ResultSet selectRecord(String selectedFoodName) {
+        createConnection();        
         String queryStr = "SELECT * FROM " + tableName + " WHERE FOODNAME = ?";
         ResultSet rs = null;
         try {

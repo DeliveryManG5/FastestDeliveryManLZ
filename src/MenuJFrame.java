@@ -19,12 +19,12 @@ import DA.FoodOrderDA;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author BryanLee
  */
 public class MenuJFrame extends javax.swing.JFrame {
+
     Menu menu = new Menu();
     MenuDA menuDA = new MenuDA();
     FoodOrderDA foodOrderDA = new FoodOrderDA();
@@ -34,7 +34,7 @@ public class MenuJFrame extends javax.swing.JFrame {
     private String foodName = null;
     private double totalPrice = 0.0;
     private int quantity = 0;
-    
+
     /**
      * Creates new form MenuJFrame
      */
@@ -79,8 +79,6 @@ public class MenuJFrame extends javax.swing.JFrame {
         setBackground(new java.awt.Color(255, 255, 255));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-
-        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\BryanLee\\Desktop\\248a30_ed679239ccf844ba82fb22b8612d737c-mv2.png")); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -315,24 +313,24 @@ public class MenuJFrame extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         //JButton button = (JButton) evt.getSource();
         String q = JOptionPane.showInputDialog("Quantity");
-        int quan = Integer.parseInt(q); 
+        int quan = Integer.parseInt(q);
         //JOptionPane.showMessageDialog(this, menu.getFoodName());
         foodName = menu.getFoodName();
         rs = menuDA.selectRecord(foodName);
-        
-        try {  
-            if(rs.next()){
+
+        try {
+            if (rs.next()) {
                 price = rs.getDouble(4);
                 //foodName = rs.getString(2);
                 quantity = quan;
                 totalPrice = price * quantity;
-            foodOrderDA.addRecord(foodName, price, quantity, totalPrice);
-            
-            DefaultTableModel model = (DefaultTableModel)menuTable.getModel();
-            model.setRowCount(0);
-            JOptionPane.showMessageDialog(this, "Food added into cart!");
-            showMenuTable(); 
-            }              
+                foodOrderDA.addRecord(foodName, price, quantity, totalPrice);
+
+                DefaultTableModel model = (DefaultTableModel) menuTable.getModel();
+                model.setRowCount(0);
+                JOptionPane.showMessageDialog(this, "Food added into cart!");
+                showMenuTable();
+            }
         } catch (SQLException ex) {
             Logger.getLogger(MenuJFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -348,7 +346,6 @@ public class MenuJFrame extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_cartButtonActionPerformed
 
-
     public void showMenuTable() throws SQLException {
         ArrayList<Menu> List = menuDA.retrieveRecord();
         DefaultTableModel model = (DefaultTableModel) menuTable.getModel();
@@ -358,10 +355,11 @@ public class MenuJFrame extends javax.swing.JFrame {
             col[0] = List.get(a).getFoodName();
             col[1] = List.get(a).getFoodDesc();
             col[2] = List.get(a).getFoodPrice();
-           
+
             model.addRow(col);
-        }               
+        }
     }
+
     /**
      * @param args the command line arguments
      */

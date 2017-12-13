@@ -30,11 +30,16 @@ public class Sprint2 extends javax.swing.JFrame {
     PaymentDA paymentDA = new PaymentDA();
     CustomerDA customerDA = new CustomerDA();
     FoodOrderDA foodOrderDA = new FoodOrderDA();
-    String custID;
+    String receiptNo, custID;
     ResultSet rs;
 
     public Sprint2() {
         initComponents();
+//        phoneNumberCB.addItem("012-3689296");
+//        jtxName.setText("Lee Bryan");
+//        jtxOrderID.setText("2001");
+//        jtfPNumber.setText("012-3689296");
+//        jtaAddress.setText("No 7, Jalan Serdang Kuala Lumpur");
         Fillcombo();
     }
 
@@ -48,68 +53,30 @@ public class Sprint2 extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        orderedTable = new javax.swing.JTable();
-        orderedID = new javax.swing.JComboBox<>();
+        phoneNumberCB = new javax.swing.JComboBox<>();
         lblOrderID = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        jTxtDate = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        jtxtTime = new javax.swing.JTextField();
         cancelButton = new javax.swing.JButton();
-        deliveredButton = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jtfPNumber = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jtaAddress = new javax.swing.JTextArea();
+        labelName = new javax.swing.JLabel();
+        jtfName = new javax.swing.JTextField();
+        jtfReceiptNO = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        orderedTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Food Name", "Quantity"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane1.setViewportView(orderedTable);
-        if (orderedTable.getColumnModel().getColumnCount() > 0) {
-            orderedTable.getColumnModel().getColumn(0).setResizable(false);
-            orderedTable.getColumnModel().getColumn(1).setResizable(false);
-        }
-
-        orderedID.addActionListener(new java.awt.event.ActionListener() {
+        phoneNumberCB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                orderedIDActionPerformed(evt);
+                phoneNumberCBActionPerformed(evt);
             }
         });
 
-        lblOrderID.setText("Order ID");
+        lblOrderID.setText("Receipt No");
 
-        jLabel1.setText("Date");
-
-        jLabel2.setText("Time");
-
-        cancelButton.setText("Cancel");
-
-        deliveredButton.setText("Delivered");
+        cancelButton.setText("Ok");
 
         jLabel3.setText("Phone Number");
 
@@ -119,6 +86,10 @@ public class Sprint2 extends javax.swing.JFrame {
         jtaAddress.setRows(5);
         jScrollPane2.setViewportView(jtaAddress);
 
+        labelName.setText("Name");
+
+        jLabel5.setText("Phone Number");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -126,52 +97,48 @@ public class Sprint2 extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(lblOrderID)
-                            .addGap(18, 18, 18)
-                            .addComponent(orderedID, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(jLabel1)
-                            .addGap(18, 18, 18)
-                            .addComponent(jTxtDate, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(jLabel2)
-                            .addGap(18, 18, 18)
-                            .addComponent(jtxtTime, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addGap(18, 18, 18)
+                        .addComponent(phoneNumberCB, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
-                            .addComponent(jLabel4))
+                            .addComponent(jLabel4)
+                            .addComponent(labelName))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(deliveredButton)
-                                .addGap(18, 18, 18)
                                 .addComponent(cancelButton))
+                            .addComponent(jScrollPane2)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jtfPNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jScrollPane2))))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jtfPNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jtfName, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(lblOrderID)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jtfReceiptNO, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 36, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel2)
-                        .addComponent(jtxtTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(orderedID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(lblOrderID)
-                        .addComponent(jLabel1)
-                        .addComponent(jTxtDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(phoneNumberCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(labelName)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jtfName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblOrderID)
+                        .addComponent(jtfReceiptNO, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
@@ -180,11 +147,9 @@ public class Sprint2 extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cancelButton)
-                    .addComponent(deliveredButton))
-                .addContainerGap())
+                .addGap(18, 18, 18)
+                .addComponent(cancelButton)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -201,65 +166,60 @@ public class Sprint2 extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void orderedIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_orderedIDActionPerformed
-        String orderID = (String) orderedID.getSelectedItem();
-        ArrayList<Payment> List = paymentDA.retrieveRecord(orderID);
-
-        try {
-            for (int a = 0; a < List.size(); a++) {
-                custID = List.get(a).getCustID();
-                String dateNtime = List.get(a).getPaymentDate();
-                String[] words = dateNtime.split(" ");
-                jTxtDate.setText(words[0]);
-                jtxtTime.setText(words[1]);
-                //jtfPNumber.setText(custID);
-                rs = customerDA.selectPNumberAndAddress(custID);
-                while (rs.next()) {
-                    jtfPNumber.setText(rs.getString(1));
-                    jtaAddress.setText(rs.getString(2));
-                }
-            }
-            DefaultTableModel model = (DefaultTableModel) orderedTable.getModel();
-            model.setRowCount(0);
-            showOrderedTable(orderID);
-        } catch (SQLException ex) {
-            Logger.getLogger(Sprint2.class.getName()).log(Level.SEVERE, null, ex);
-        }
-//        try {
-//            
-//            
-//            while (rs.next()) {
-//                showOrderedTable(orderID);
-//                foodID = rs.getString(1);
-//                nameTxt.setText(selectedFoodName);
-//                foodDescTxt.setText(rs.getString(4));
-//                foodPriceTxt.setText(Double.toString(rs.getDouble(3)));
-//            }
+    private void phoneNumberCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phoneNumberCBActionPerformed
+//        String orderID = (String) orderedID.getSelectedItem();
+//        ArrayList<Payment> List = paymentDA.retrieveRecord(orderID);
 //
+//        try {
+//            for (int a = 0; a < List.size(); a++) {
+//                custID = List.get(a).getCustID();
+//                //jtfPNumber.setText(custID);
+//                rs = customerDA.selectPNumberAndAddress(custID);
+//                while (rs.next()) {
+//                    jtfPNumber.setText(rs.getString(1));
+//                    jtaAddress.setText(rs.getString(2));
+//                }
+//            }
 //        } catch (SQLException ex) {
-//            Logger.getLogger(EditMenu.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(Sprint2.class.getName()).log(Level.SEVERE, null, ex);
 //        }
+        String pNumber = (String) phoneNumberCB.getSelectedItem();
+        ArrayList<Customer> list = customerDA.retrieveRecord(pNumber);
 
-    }//GEN-LAST:event_orderedIDActionPerformed
-
-    public void showOrderedTable(String orderID) throws SQLException {
-        ArrayList<FoodOrder> List = foodOrderDA.retrieveRecord(orderID);
-        DefaultTableModel model = (DefaultTableModel) orderedTable.getModel();
-        Object[] col = new Object[2];
-        for (int a = 0; a < List.size(); a++) {
-            //row[0] = List.get(a).getFoodID();
-            col[0] = List.get(a).getFoodName();
-            col[1] = List.get(a).getQty();
-
-            model.addRow(col);
+        for (int a = 0; a < list.size(); a++) {
+            jtfName.setText(list.get(a).getCustName());
+            jtfPNumber.setText(list.get(a).getpNumber());
+            jtaAddress.setText(list.get(a).getAddress());
+            custID = list.get(a).getCustID();
         }
-    }
+        
+        ArrayList<Payment> paymentList = paymentDA.retrieveRecord(custID);
+        for (int i = 0; i < paymentList.size(); i++) {
+            jtfReceiptNO.setText(Integer.toString(paymentList.get(i).getReceiptNo()));
+        }
+    }//GEN-LAST:event_phoneNumberCBActionPerformed
 
+//    public void showOrderedTable(String orderID) throws SQLException {
+    //        ArrayList<FoodOrder> List = foodOrderDA.retrieveRecord(orderID);
+    //        DefaultTableModel model = (DefaultTableModel) orderedTable.getModel();
+    //        Object[] col = new Object[2];
+    //        for (int a = 0; a < List.size(); a++) {
+    //            //row[0] = List.get(a).getFoodID();
+    //            col[0] = List.get(a).getFoodName();
+    //            col[1] = List.get(a).getQty();
+    //
+    //            model.addRow(col);
+    //        }
+    //    }
     private void Fillcombo() {
         try {
             ResultSet rs = paymentDA.selectNotDeliveredRecord();
+            //ArrayList<Customer> liist = (ArrayList<Customer>) customerDA.selectPNumberAndAddress(rs.getString(1));
             while (rs.next()) {
-                orderedID.addItem(rs.getString(2));
+                ResultSet rs2 = customerDA.selectPNumberAndAddress(rs.getString(1));
+                while (rs2.next()) {
+                    phoneNumberCB.addItem(rs2.getString(1));
+                }
             }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -303,20 +263,17 @@ public class Sprint2 extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
-    private javax.swing.JButton deliveredButton;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTxtDate;
     private javax.swing.JTextArea jtaAddress;
+    private javax.swing.JTextField jtfName;
     private javax.swing.JTextField jtfPNumber;
-    private javax.swing.JTextField jtxtTime;
+    private javax.swing.JTextField jtfReceiptNO;
+    private javax.swing.JLabel labelName;
     private javax.swing.JLabel lblOrderID;
-    private javax.swing.JComboBox<String> orderedID;
-    private javax.swing.JTable orderedTable;
+    private javax.swing.JComboBox<String> phoneNumberCB;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,63 +1,35 @@
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import javax.swing.JOptionPane;
-import DA.FoodOrderDA;
-import Domain.FoodOrder;
-import java.text.DecimalFormat;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import DA.FoodOrderDA;
+import DA.MenuDA;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author BryanLee
  */
-public class Assignment extends javax.swing.JFrame {
+public class Sprint3 extends javax.swing.JFrame {
+
+    FoodOrderDA foodOrderDA = new FoodOrderDA();
+    MenuDA menuDA = new MenuDA();
+    private String foodName;
+    private double price = 0.0;
+    ResultSet rs = null;
 
     /**
-     * Creates new form Assignment
+     * Creates new form Sprint3
      */
-    FoodOrderDA foodOrderDA = new FoodOrderDA();
-    FoodOrder foodOrder = new FoodOrder();
-    private double totalPrice = 0.0;
-
-    public Assignment() {
+    public Sprint3() {
         initComponents();
-        try {
-            showOrderTable();
-        } catch (SQLException ex) {
-            Logger.getLogger(Assignment.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
-
-    public void showOrderTable() throws SQLException {
-        double totalPrice = 0;
-        DecimalFormat df = new DecimalFormat("#.00");
-        ArrayList<FoodOrder> List = foodOrderDA.retrieveRecord();
-        DefaultTableModel model = (DefaultTableModel) orderTable.getModel();
-        Object[] col = new Object[4];
-        for (int a = 0; a < List.size(); a++) {
-            col[0] = List.get(a).getFoodName();
-            col[1] = List.get(a).getFoodPrice();
-            col[2] = List.get(a).getQty();
-            col[3] = List.get(a).getTotalPrice();
-
-            totalPrice += List.get(a).getTotalPrice();
-            model.addRow(col);
-        }               
-        subtotalLabel.setText(df.format(totalPrice));
     }
 
     /**
@@ -81,15 +53,13 @@ public class Assignment extends javax.swing.JFrame {
         nameLabel = new javax.swing.JLabel();
         cartButton = new javax.swing.JButton();
         logoutButton = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
-        cartLabel = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
+        lblPromotion = new javax.swing.JLabel();
+        jbtPromotion1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        orderTable = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        subTotalLabel = new javax.swing.JLabel();
-        subtotalLabel = new javax.swing.JLabel();
-        removeButton = new javax.swing.JButton();
+        jtaPromotionA = new javax.swing.JTextArea();
+        jbtPromotion2 = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jtaPromotionB = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -127,6 +97,11 @@ public class Assignment extends javax.swing.JFrame {
         homeButton.setBorder(null);
         homeButton.setBorderPainted(false);
         homeButton.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        homeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                homeButtonActionPerformed(evt);
+            }
+        });
 
         menuButton.setBackground(new java.awt.Color(255, 255, 255));
         menuButton.setText("Menu");
@@ -185,7 +160,7 @@ public class Assignment extends javax.swing.JFrame {
                 .addComponent(contactButton, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(nameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 66, Short.MAX_VALUE)
+                    .addComponent(nameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(cartButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(logoutButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
@@ -208,113 +183,36 @@ public class Assignment extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        lblPromotion.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        lblPromotion.setText("Promotion");
 
-        cartLabel.setFont(new java.awt.Font("Verdana", 0, 36)); // NOI18N
-        cartLabel.setText("Cart");
-
-        orderTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Food Name", "Price", "Quantity", "Total"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Double.class, java.lang.Integer.class, java.lang.Double.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        orderTable.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                orderTableMouseClicked(evt);
-            }
-        });
-        jScrollPane1.setViewportView(orderTable);
-        if (orderTable.getColumnModel().getColumnCount() > 0) {
-            orderTable.getColumnModel().getColumn(0).setResizable(false);
-            orderTable.getColumnModel().getColumn(1).setResizable(false);
-            orderTable.getColumnModel().getColumn(2).setResizable(false);
-            orderTable.getColumnModel().getColumn(3).setResizable(false);
-        }
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)
-        );
-
-        jButton1.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
-        jButton1.setText("CHECKOUT");
-
-        subTotalLabel.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
-        subTotalLabel.setText("SubTotal :");
-
-        subtotalLabel.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
-        subtotalLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        subtotalLabel.setText("0.00");
-
-        removeButton.setText("Remove");
-        removeButton.addActionListener(new java.awt.event.ActionListener() {
+        jbtPromotion1.setText("Promotion A");
+        jbtPromotion1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeButtonActionPerformed(evt);
+                jbtPromotion1ActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(cartLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(removeButton)
-                        .addGap(27, 27, 27)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(subTotalLabel)
-                        .addGap(18, 18, 18)
-                        .addComponent(subtotalLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap(30, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(cartLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(removeButton))
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(subTotalLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
-                    .addComponent(subtotalLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
+        jtaPromotionA.setEditable(false);
+        jtaPromotionA.setColumns(20);
+        jtaPromotionA.setRows(5);
+        jtaPromotionA.setText("Promotion A\n- Chicken Bento (Small)\n- Coke\nRM 10.00\tSAVE RM2");
+        jtaPromotionA.setBorder(null);
+        jScrollPane1.setViewportView(jtaPromotionA);
+
+        jbtPromotion2.setText("Promotion B");
+        jbtPromotion2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtPromotion2ActionPerformed(evt);
+            }
+        });
+
+        jtaPromotionB.setEditable(false);
+        jtaPromotionB.setColumns(20);
+        jtaPromotionB.setRows(5);
+        jtaPromotionB.setText("Promotion B\n- Double Cheese Chicken Burger\n- Coke\nRM 11.00\tSAVE RM2");
+        jtaPromotionB.setBorder(null);
+        jScrollPane2.setViewportView(jtaPromotionB);
 
         javax.swing.GroupLayout bkacgrounPanelLayout = new javax.swing.GroupLayout(bkacgrounPanel);
         bkacgrounPanel.setLayout(bkacgrounPanelLayout);
@@ -323,11 +221,22 @@ public class Assignment extends javax.swing.JFrame {
             .addGroup(bkacgrounPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(bkacgrounPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(bkacgrounPanelLayout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(44, 44, 44)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(bkacgrounPanelLayout.createSequentialGroup()
+                        .addGroup(bkacgrounPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblPromotion)
+                            .addGroup(bkacgrounPanelLayout.createSequentialGroup()
+                                .addGroup(bkacgrounPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jbtPromotion1)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(bkacgrounPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jbtPromotion2)
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         bkacgrounPanelLayout.setVerticalGroup(
@@ -335,14 +244,24 @@ public class Assignment extends javax.swing.JFrame {
             .addGroup(bkacgrounPanelLayout.createSequentialGroup()
                 .addGroup(bkacgrounPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(bkacgrounPanelLayout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                        .addContainerGap(119, Short.MAX_VALUE)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(bkacgrounPanelLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(bkacgrounPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(bkacgrounPanelLayout.createSequentialGroup()
+                        .addComponent(jbtPromotion2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(bkacgrounPanelLayout.createSequentialGroup()
+                        .addComponent(lblPromotion)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jbtPromotion1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(226, 226, 226))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -359,45 +278,57 @@ public class Assignment extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
-        //DecimalFormat df = new DecimalFormat("#.00");
-        try {
-            foodOrderDA.deleteRecord(foodOrder.getFoodName());
-
-            DefaultTableModel model = (DefaultTableModel) orderTable.getModel();
-            model.setRowCount(0);
-            showOrderTable();
-        } catch (SQLException ex) {
-            Logger.getLogger(Assignment.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        //totalPayment = foodOrderDA.sumOfRow();
-        //subtotalLabel.setText(df.format(totalPrice));
-    }//GEN-LAST:event_removeButtonActionPerformed
-
-    private void orderTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_orderTableMouseClicked
-        int rowSelected = orderTable.getSelectedRow();
-        TableModel model = orderTable.getModel();
-        foodOrder.setFoodName(model.getValueAt(rowSelected, 0).toString());
-        foodOrder.setFoodPrice(Double.parseDouble(model.getValueAt(rowSelected, 1).toString()));
-        foodOrder.setQty(Integer.parseInt(model.getValueAt(rowSelected, 2).toString()));
-        foodOrder.setTotalPrice(Double.parseDouble(model.getValueAt(rowSelected, 3).toString()));
-    }//GEN-LAST:event_orderTableMouseClicked
+    private void menuButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuButtonActionPerformed
+        new MenuJFrame().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_menuButtonActionPerformed
 
     private void cartButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cartButtonActionPerformed
         new Assignment().setVisible(true);
         dispose();
     }//GEN-LAST:event_cartButtonActionPerformed
 
-    private void menuButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuButtonActionPerformed
-        new MenuJFrame().setVisible(true);
+    private void jbtPromotion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtPromotion1ActionPerformed
+        foodName = "Promotion A";
+        
+        try {
+            rs = menuDA.selectRecord(foodName);
+            while (rs.next()) {
+                price = rs.getDouble(4);
+                foodOrderDA.addRecord(foodName, 10.0, 1, 10.0);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Sprint3.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jbtPromotion1ActionPerformed
+
+    private void jbtPromotion2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtPromotion2ActionPerformed
+        foodName = "Promotion B";
+        
+        try {
+            rs = menuDA.selectRecord(foodName);
+            while (rs.next()) {
+                price = rs.getDouble(4);
+                foodOrderDA.addRecord(foodName, 10.0, 1, 10.0);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Sprint3.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jbtPromotion2ActionPerformed
+
+    private void homeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homeButtonActionPerformed
+        new Sprint3().setVisible(true);
         dispose();
-    }//GEN-LAST:event_menuButtonActionPerformed
+    }//GEN-LAST:event_homeButtonActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -408,23 +339,31 @@ public class Assignment extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Assignment.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Sprint3.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Assignment.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Sprint3.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Assignment.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Sprint3.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Assignment.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Sprint3.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Assignment().setVisible(true);
+                new Sprint3().setVisible(true);
             }
         });
     }
@@ -433,23 +372,21 @@ public class Assignment extends javax.swing.JFrame {
     private javax.swing.JButton aboutButton;
     private javax.swing.JPanel bkacgrounPanel;
     private javax.swing.JButton cartButton;
-    private javax.swing.JLabel cartLabel;
     private javax.swing.JButton contactButton;
     private javax.swing.JButton homeButton;
     private javax.swing.JButton howButton;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JButton jbtPromotion1;
+    private javax.swing.JButton jbtPromotion2;
+    private javax.swing.JTextArea jtaPromotionA;
+    private javax.swing.JTextArea jtaPromotionB;
+    private javax.swing.JLabel lblPromotion;
     private javax.swing.JButton logoutButton;
     private javax.swing.JButton menuButton;
     private javax.swing.JLabel nameLabel;
-    private javax.swing.JTable orderTable;
-    private javax.swing.JButton removeButton;
-    private javax.swing.JLabel subTotalLabel;
-    private javax.swing.JLabel subtotalLabel;
     // End of variables declaration//GEN-END:variables
 }

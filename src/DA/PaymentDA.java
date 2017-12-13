@@ -70,7 +70,7 @@ public class PaymentDA {
     }
 
     public ResultSet selectNotDeliveredRecord() {
-        String queryStr = "SELECT * FROM " + tableName + " WHERE STATUS = 'NOT DELIVERED'";
+        String queryStr = "SELECT CUSTID FROM " + tableName + " WHERE STATUS = 'NOT DELIVERED'";
         ResultSet rs = null;
         try {
             stmt = conn.prepareStatement(queryStr);
@@ -82,14 +82,31 @@ public class PaymentDA {
         return rs;
     }
 
-    public ArrayList<Payment> retrieveRecord(String orderID) {
+    public ResultSet selectRecord(int orderID) {
+        String queryString = "SELECT * FROM " + tableName + " WHERE ORDERID = ?";
+
+        ResultSet rs = null;
+
+        try {
+            stmt = conn.prepareStatement(queryString);
+            stmt.setInt(1, orderID);
+
+            rs = stmt.executeQuery();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        return rs;
+    }
+
+    public ArrayList<Payment> retrieveRecord(String custID) {
         createConnection();
-        String queryStr = "SELECT * FROM " + tableName + " WHERE ORDERID = ?";
+        String queryStr = "SELECT * FROM " + tableName + " WHERE CUSTID = ?";
         ResultSet rs = null;
         ArrayList<Payment> paymentList = new ArrayList<Payment>();
         try {
             stmt = conn.prepareStatement(queryStr);
-            stmt.setString(1, orderID);
+            stmt.setString(1, custID);
 
             rs = stmt.executeQuery();
 
@@ -104,5 +121,23 @@ public class PaymentDA {
         }
 
         return paymentList;
+    }
+
+    public void updateDeliveredStatus(int orderID) {
+        String updateStr = "UPDATE " + tableName + " SET STATUS = ? WHERE ORDERID = ?";
+
+        try {
+            ResultSet rs = selectRecord(orderID);
+
+            if (rs.next()) {
+                stmt = conn.prepareStatement(updateStr);
+                stmt.setString(1, "DELIVERED");
+                stmt.setInt(2, orderID);
+                stmt.executeUpdate();
+            }
+
+        } catch (SQLException ex) {
+            ex.getMessage();
+        }
     }
 }
