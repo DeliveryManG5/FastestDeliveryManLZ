@@ -31,6 +31,8 @@ public class Assignment extends javax.swing.JFrame {
     FoodOrderDA foodOrderDA = new FoodOrderDA();
     FoodOrder foodOrder = new FoodOrder();
     private double totalPrice = 0.0;
+    private ListInterface<FoodOrder> orderList = new List<>();
+    //public static ListInterface<FoodOrder> order = MenuJFrame.list;
 
     public Assignment() {
         initComponents();
@@ -63,7 +65,6 @@ public class Assignment extends javax.swing.JFrame {
 //        while (!list.isEmpty()) {
 //            model.addRow(new Object[]{parts[0], Double.parseDouble(parts[1]), Integer.parseInt(parts[2]), Double.parseDouble(parts[3])});
 //        }
-
         //model.addRow(new Object[]{foodName, foodName, foodName, foodName});
         //totalPrice += Double.parseDouble(parts[3]);
         //subtotalLabel.setText(df.format(totalPrice));        

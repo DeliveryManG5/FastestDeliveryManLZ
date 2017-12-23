@@ -13,11 +13,17 @@ public interface ListInterface<T> {
 
     public boolean add(T newEntry);
 
+    public T get(int givenPosition);
+
     public boolean add(int newPosition, T newEntry);
 
     public T remove(int givenPosition);
 
     public void clear();
+
+    int generateOrderID();
+
+    T getLast();
 
     public boolean replace(int givenPosition, T newEntry);
 

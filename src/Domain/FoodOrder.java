@@ -10,15 +10,14 @@ package Domain;
  * @author BryanLee
  */
 public class FoodOrder {
-    String orderID;
     String foodName;
     double foodPrice;
-    int qty;
+    int qty, orderID;
     double totalPrice;
     
     public FoodOrder(){ }
     
-    public FoodOrder(String orderID, String foodName, double foodPrice, int qty, double totalPrice){
+    public FoodOrder(int orderID, String foodName, double foodPrice, int qty, double totalPrice){
         this.orderID = orderID;  
         this.foodName = foodName;
         this.foodPrice = foodPrice;
@@ -26,7 +25,7 @@ public class FoodOrder {
         this.totalPrice = totalPrice;
     }
 
-    public String getOrderID() {
+    public int getOrderID() {
         return orderID;
     }
 
@@ -46,7 +45,7 @@ public class FoodOrder {
         return totalPrice;
     }
 
-    public void setOrderID(String orderID) {
+    public void setOrderID(int orderID) {
         this.orderID = orderID;
     }
 

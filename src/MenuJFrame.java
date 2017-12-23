@@ -34,6 +34,7 @@ public class MenuJFrame extends javax.swing.JFrame {
     private String foodName = null;
     private double totalPrice = 0.0;
     private int quantity = 0;
+    public static ListInterface<FoodOrder> orderFoodList = new List<>();
 
     /**
      * Creates new form MenuJFrame
@@ -283,11 +284,12 @@ public class MenuJFrame extends javax.swing.JFrame {
         //JButton button = (JButton) evt.getSource();
         String q = JOptionPane.showInputDialog("Quantity");
         int quan = Integer.parseInt(q);
-        ListInterface<String> list = new List();
         totalPrice = price * quantity;
+        int orderID = orderFoodList.generateOrderID();
+        FoodOrder foodorder1 = new FoodOrder(orderID, menu.getFoodName(), menu.getFoodPrice(), quan, totalPrice);
 
-        list.add(menu.getFoodName() + " - " + menu.getFoodPrice() + " - " + q + " - " + totalPrice);
-        System.out.println("List : " + list);
+        orderFoodList.add(foodorder1);
+        System.out.println("List : " + orderFoodList);
         //JOptionPane.showMessageDialog(this, menu.getFoodName());
 //        foodName = menu.getFoodName();
 //        rs = menuDA.selectRecord(foodName);
@@ -320,7 +322,7 @@ public class MenuJFrame extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_cartButtonActionPerformed
 
-    public void showMenuTable(){
+    public void showMenuTable() {
 //        ArrayList<Menu> List = menuDA.retrieveRecord();
 //        DefaultTableModel model = (DefaultTableModel) menuTable.getModel();
 //        Object[] col = new Object[3];
@@ -333,7 +335,7 @@ public class MenuJFrame extends javax.swing.JFrame {
 //            model.addRow(col);
 //        }
         DefaultTableModel model = (DefaultTableModel) menuTable.getModel();
-        
+
         model.addRow(new Object[]{"Double Cheese Chicken Burger", "Double the chicken and the cheese", 10.9});
         model.addRow(new Object[]{"Chicken Bento (Small)", "White rice with marinated chicken", 9.9});
         model.addRow(new Object[]{"Chicken Maryland", "Grilled chicken with salad and fries", 15.0});

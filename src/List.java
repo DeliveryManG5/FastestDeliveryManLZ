@@ -1,9 +1,11 @@
+
+import Domain.FoodOrder;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author BryanLee
@@ -12,6 +14,38 @@ public class List<T> implements ListInterface<T> {
 
     private Node firstNode; // reference to first node
     private int numberOfEntries;  	// number of entries in list
+
+    @Override
+    public int generateOrderID() {
+        int orderID;
+
+        if (isEmpty()) {
+            return orderID = 1000;
+        } else {
+            FoodOrder foodorder = (FoodOrder) this.getLast();
+            int lastID = foodorder.getOrderID();
+            
+            return orderID = lastID + 1;
+        }
+    }
+
+    @Override
+    public T getLast() {
+        T result = null;
+
+        if (isEmpty()) // if empty list
+        {
+            result = null;
+        } else {
+            Node currentNode = firstNode;	// traverse linked list with p pointing to the current node
+            while (currentNode.next != null) {	// while have not reached the last node
+                currentNode = currentNode.next;
+            }
+            result = currentNode.data;// currentNode is pointing to the last node
+        }
+
+        return result;
+    }
 
     private class Node {
 
@@ -27,6 +61,21 @@ public class List<T> implements ListInterface<T> {
             this.data = data;
             this.next = next;
         }
+    }
+
+    public T get(int givenPosition) // returns the element at the specified position in the list.
+    {
+        T result = null;
+
+        if ((givenPosition >= 1) && (givenPosition <= numberOfEntries)) {
+            Node currentNode = firstNode;
+            for (int i = 0; i < givenPosition - 1; ++i) {
+                currentNode = currentNode.next;		// advance currentNode to next node
+            }
+            result = currentNode.data;	// currentNode is pointing to the node at givenPosition
+        }
+
+        return result;
     }
 
     @Override
