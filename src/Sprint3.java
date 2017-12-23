@@ -302,6 +302,7 @@ public class Sprint3 extends javax.swing.JFrame {
             Logger.getLogger(Sprint3.class
                     .getName()).log(Level.SEVERE, null, ex);
         }
+        JOptionPane.showMessageDialog(this, "Promotion A has been added to cart!");
     }//GEN-LAST:event_jbtPromotion1ActionPerformed
 
     private void jbtPromotion2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtPromotion2ActionPerformed
@@ -318,6 +319,7 @@ public class Sprint3 extends javax.swing.JFrame {
             Logger.getLogger(Sprint3.class
                     .getName()).log(Level.SEVERE, null, ex);
         }
+        JOptionPane.showMessageDialog(this, "Promotion B has been added to cart!");
     }//GEN-LAST:event_jbtPromotion2ActionPerformed
 
     private void homeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homeButtonActionPerformed

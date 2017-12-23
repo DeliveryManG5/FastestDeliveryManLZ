@@ -133,7 +133,7 @@
                       <Component id="contactButton" min="-2" pref="69" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="nameLabel" pref="66" max="32767" attributes="0"/>
+                          <Component id="nameLabel" pref="157" max="32767" attributes="0"/>
                           <Component id="cartButton" max="32767" attributes="0"/>
                           <Component id="logoutButton" alignment="0" max="32767" attributes="0"/>
                       </Group>
@@ -193,6 +193,9 @@
                   <Color id="Default Cursor"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="homeButtonActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="menuButton">
               <Properties>

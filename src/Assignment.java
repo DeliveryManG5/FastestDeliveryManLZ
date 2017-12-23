@@ -34,30 +34,39 @@ public class Assignment extends javax.swing.JFrame {
 
     public Assignment() {
         initComponents();
-        try {
-            showOrderTable();
-        } catch (SQLException ex) {
-            Logger.getLogger(Assignment.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        showOrderTable();
 
     }
 
-    public void showOrderTable() throws SQLException {
+    public void showOrderTable() {
         double totalPrice = 0;
-        DecimalFormat df = new DecimalFormat("#.00");
-        ArrayList<FoodOrder> List = foodOrderDA.retrieveRecord();
+//        DecimalFormat df = new DecimalFormat("#.00");
+//        ArrayList<FoodOrder> List = foodOrderDA.retrieveRecord();
+//        DefaultTableModel model = (DefaultTableModel) orderTable.getModel();
+//        Object[] col = new Object[4];
+//        for (int a = 0; a < List.size(); a++) {
+//            col[0] = List.get(a).getFoodName();
+//            col[1] = List.get(a).getFoodPrice();
+//            col[2] = List.get(a).getQty();
+//            col[3] = List.get(a).getTotalPrice();
+//
+//            totalPrice += List.get(a).getTotalPrice();
+//            model.addRow(col);
+//        }          
+        ListInterface<String> list = new List();
+        list.add("Chicken - 9.9 - 3 - 29.7");
+//        list.add("Beef - 10.0 - 3 - 30.0");
         DefaultTableModel model = (DefaultTableModel) orderTable.getModel();
-        Object[] col = new Object[4];
-        for (int a = 0; a < List.size(); a++) {
-            col[0] = List.get(a).getFoodName();
-            col[1] = List.get(a).getFoodPrice();
-            col[2] = List.get(a).getQty();
-            col[3] = List.get(a).getTotalPrice();
+        String[] parts = list.toString().split(" - ");
+        model.addRow(new Object[]{parts[0], Double.parseDouble(parts[1]), Integer.parseInt(parts[2]), Double.parseDouble(parts[3])});
 
-            totalPrice += List.get(a).getTotalPrice();
-            model.addRow(col);
-        }               
-        subtotalLabel.setText(df.format(totalPrice));
+//        while (!list.isEmpty()) {
+//            model.addRow(new Object[]{parts[0], Double.parseDouble(parts[1]), Integer.parseInt(parts[2]), Double.parseDouble(parts[3])});
+//        }
+
+        //model.addRow(new Object[]{foodName, foodName, foodName, foodName});
+        //totalPrice += Double.parseDouble(parts[3]);
+        //subtotalLabel.setText(df.format(totalPrice));        
     }
 
     /**
@@ -127,6 +136,11 @@ public class Assignment extends javax.swing.JFrame {
         homeButton.setBorder(null);
         homeButton.setBorderPainted(false);
         homeButton.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        homeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                homeButtonActionPerformed(evt);
+            }
+        });
 
         menuButton.setBackground(new java.awt.Color(255, 255, 255));
         menuButton.setText("Menu");
@@ -185,7 +199,7 @@ public class Assignment extends javax.swing.JFrame {
                 .addComponent(contactButton, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(nameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 66, Short.MAX_VALUE)
+                    .addComponent(nameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
                     .addComponent(cartButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(logoutButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
@@ -361,27 +375,18 @@ public class Assignment extends javax.swing.JFrame {
 
     private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
         //DecimalFormat df = new DecimalFormat("#.00");
-        try {
-            foodOrderDA.deleteRecord(foodOrder.getFoodName());
-
-            DefaultTableModel model = (DefaultTableModel) orderTable.getModel();
-            model.setRowCount(0);
-            showOrderTable();
-        } catch (SQLException ex) {
-            Logger.getLogger(Assignment.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            foodOrderDA.deleteRecord(foodOrder.getFoodName());
+//
+//            DefaultTableModel model = (DefaultTableModel) orderTable.getModel();
+//            model.setRowCount(0);
+//            showOrderTable();
+//        } catch (SQLException ex) {
+//            Logger.getLogger(Assignment.class.getName()).log(Level.SEVERE, null, ex);
+//        }
         //totalPayment = foodOrderDA.sumOfRow();
         //subtotalLabel.setText(df.format(totalPrice));
     }//GEN-LAST:event_removeButtonActionPerformed
-
-    private void orderTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_orderTableMouseClicked
-        int rowSelected = orderTable.getSelectedRow();
-        TableModel model = orderTable.getModel();
-        foodOrder.setFoodName(model.getValueAt(rowSelected, 0).toString());
-        foodOrder.setFoodPrice(Double.parseDouble(model.getValueAt(rowSelected, 1).toString()));
-        foodOrder.setQty(Integer.parseInt(model.getValueAt(rowSelected, 2).toString()));
-        foodOrder.setTotalPrice(Double.parseDouble(model.getValueAt(rowSelected, 3).toString()));
-    }//GEN-LAST:event_orderTableMouseClicked
 
     private void cartButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cartButtonActionPerformed
         new Assignment().setVisible(true);
@@ -392,6 +397,20 @@ public class Assignment extends javax.swing.JFrame {
         new MenuJFrame().setVisible(true);
         dispose();
     }//GEN-LAST:event_menuButtonActionPerformed
+
+    private void homeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homeButtonActionPerformed
+        new Sprint3().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_homeButtonActionPerformed
+
+    private void orderTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_orderTableMouseClicked
+        int rowSelected = orderTable.getSelectedRow();
+        TableModel model = orderTable.getModel();
+        foodOrder.setFoodName(model.getValueAt(rowSelected, 0).toString());
+        foodOrder.setFoodPrice(Double.parseDouble(model.getValueAt(rowSelected, 1).toString()));
+        foodOrder.setQty(Integer.parseInt(model.getValueAt(rowSelected, 2).toString()));
+        foodOrder.setTotalPrice(Double.parseDouble(model.getValueAt(rowSelected, 3).toString()));
+    }//GEN-LAST:event_orderTableMouseClicked
 
     /**
      * @param args the command line arguments

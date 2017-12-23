@@ -40,12 +40,7 @@ public class MenuJFrame extends javax.swing.JFrame {
      */
     public MenuJFrame() {
         initComponents();
-        try {
-            showMenuTable();
-        } catch (SQLException ex) {
-            Logger.getLogger(Assignment.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+        showMenuTable();
     }
 
     /**
@@ -57,8 +52,6 @@ public class MenuJFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         menuLabel = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
@@ -77,25 +70,6 @@ public class MenuJFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
-
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -141,7 +115,7 @@ public class MenuJFrame extends javax.swing.JFrame {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 688, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -282,19 +256,14 @@ public class MenuJFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -314,26 +283,31 @@ public class MenuJFrame extends javax.swing.JFrame {
         //JButton button = (JButton) evt.getSource();
         String q = JOptionPane.showInputDialog("Quantity");
         int quan = Integer.parseInt(q);
+        ListInterface<String> list = new List();
+        totalPrice = price * quantity;
+
+        list.add(menu.getFoodName() + " - " + menu.getFoodPrice() + " - " + q + " - " + totalPrice);
+        System.out.println("List : " + list);
         //JOptionPane.showMessageDialog(this, menu.getFoodName());
-        foodName = menu.getFoodName();
-        rs = menuDA.selectRecord(foodName);
-
-        try {
-            if (rs.next()) {
-                price = rs.getDouble(4);
-                //foodName = rs.getString(2);
-                quantity = quan;
-                totalPrice = price * quantity;
-                foodOrderDA.addRecord(foodName, price, quantity, totalPrice);
-
-                DefaultTableModel model = (DefaultTableModel) menuTable.getModel();
-                model.setRowCount(0);
-                JOptionPane.showMessageDialog(this, "Food added into cart!");
-                showMenuTable();
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(MenuJFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        foodName = menu.getFoodName();
+//        rs = menuDA.selectRecord(foodName);
+//
+//        try {
+//            if (rs.next()) {
+//                price = rs.getDouble(4);
+//                //foodName = rs.getString(2);
+//                quantity = quan;
+//                totalPrice = price * quantity;
+//                foodOrderDA.addRecord(foodName, price, quantity, totalPrice);
+//
+//                DefaultTableModel model = (DefaultTableModel) menuTable.getModel();
+//                model.setRowCount(0);
+//                JOptionPane.showMessageDialog(this, "Food added into cart!");
+//                showMenuTable();
+//            }
+//        } catch (SQLException ex) {
+//            Logger.getLogger(MenuJFrame.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void menuButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuButtonActionPerformed
@@ -346,18 +320,24 @@ public class MenuJFrame extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_cartButtonActionPerformed
 
-    public void showMenuTable() throws SQLException {
-        ArrayList<Menu> List = menuDA.retrieveRecord();
+    public void showMenuTable(){
+//        ArrayList<Menu> List = menuDA.retrieveRecord();
+//        DefaultTableModel model = (DefaultTableModel) menuTable.getModel();
+//        Object[] col = new Object[3];
+//        for (int a = 0; a < List.size(); a++) {
+//            //row[0] = List.get(a).getFoodID();
+//            col[0] = List.get(a).getFoodName();
+//            col[1] = List.get(a).getFoodDesc();
+//            col[2] = List.get(a).getFoodPrice();
+//
+//            model.addRow(col);
+//        }
         DefaultTableModel model = (DefaultTableModel) menuTable.getModel();
-        Object[] col = new Object[3];
-        for (int a = 0; a < List.size(); a++) {
-            //row[0] = List.get(a).getFoodID();
-            col[0] = List.get(a).getFoodName();
-            col[1] = List.get(a).getFoodDesc();
-            col[2] = List.get(a).getFoodPrice();
-
-            model.addRow(col);
-        }
+        
+        model.addRow(new Object[]{"Double Cheese Chicken Burger", "Double the chicken and the cheese", 10.9});
+        model.addRow(new Object[]{"Chicken Bento (Small)", "White rice with marinated chicken", 9.9});
+        model.addRow(new Object[]{"Chicken Maryland", "Grilled chicken with salad and fries", 15.0});
+        model.addRow(new Object[]{"Coke", "Coca Cola", 2});
     }
 
     /**
@@ -402,8 +382,6 @@ public class MenuJFrame extends javax.swing.JFrame {
     private javax.swing.JButton homeButton;
     private javax.swing.JButton howButton;
     private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
