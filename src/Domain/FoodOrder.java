@@ -10,24 +10,30 @@ package Domain;
  * @author BryanLee
  */
 public class FoodOrder {
-    String foodName;
-    double foodPrice;
-    int qty, orderID;
-    double totalPrice;
-    
-    public FoodOrder(){ }
-    
-    public FoodOrder(int orderID, String foodName, double foodPrice, int qty, double totalPrice){
-        this.orderID = orderID;  
+
+    String foodName, restaurantName;
+    double foodPrice, totalPrice;
+    int qty;
+
+    public FoodOrder() {
+    }
+
+    public FoodOrder(String restaurantName,String foodName, double foodPrice, int qty, double totalPrice) {
+        this.restaurantName = restaurantName;
         this.foodName = foodName;
         this.foodPrice = foodPrice;
         this.qty = qty;
         this.totalPrice = totalPrice;
     }
 
-    public int getOrderID() {
-        return orderID;
+    public String getRestaurantName() {
+        return restaurantName;
     }
+
+    public void setRestaurantName(String restaurantName) {
+        this.restaurantName = restaurantName;
+    }
+
 
     public String getFoodName() {
         return foodName;
@@ -45,9 +51,6 @@ public class FoodOrder {
         return totalPrice;
     }
 
-    public void setOrderID(int orderID) {
-        this.orderID = orderID;
-    }
 
     public void setFoodName(String foodName) {
         this.foodName = foodName;
@@ -64,5 +67,5 @@ public class FoodOrder {
     public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
     }
-    
+
 }

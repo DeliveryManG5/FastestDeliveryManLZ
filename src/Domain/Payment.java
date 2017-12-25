@@ -10,17 +10,29 @@ package Domain;
  * @author BryanLee
  */
 public class Payment {
-    int receiptNo, orderID;
     double totalPaid;
-    String paymentDate, status, custID;
+    String  receiptNo, orderID, paymentDate, status, custID, deliverymanID;
 
-    public Payment(int receiptNo, int orderID, double totalPaid, String paymentDate, String status, String custID) {
+
+    public Payment() {
+    }
+    
+    public Payment(String receiptNo, String orderID, double totalPaid, String paymentDate, String status, String custID, String deliverymanID) {
         this.receiptNo = receiptNo;
         this.orderID = orderID;
         this.totalPaid = totalPaid;
         this.paymentDate = paymentDate;
         this.status = status;
         this.custID = custID;
+        this.deliverymanID = deliverymanID;
+    }
+
+    public String getDeliverymanID() {
+        return deliverymanID;
+    }
+
+    public void setDeliverymanID(String deliverymanID) {
+        this.deliverymanID = deliverymanID;
     }
 
     public String getCustID() {
@@ -38,23 +50,20 @@ public class Payment {
     public void setStatus(String status) {
         this.status = status;
     }
-
-    public Payment() {
-    }
     
-    public int getReceiptNo() {
+    public String getReceiptNo() {
         return receiptNo;
     }
 
-    public void setReceiptNo(int receiptNo) {
+    public void setReceiptNo(String receiptNo) {
         this.receiptNo = receiptNo;
     }
 
-    public int getOrderID() {
+    public String getOrderID() {
         return orderID;
     }
 
-    public void setOrderID(int orderID) {
+    public void setOrderID(String orderID) {
         this.orderID = orderID;
     }
 

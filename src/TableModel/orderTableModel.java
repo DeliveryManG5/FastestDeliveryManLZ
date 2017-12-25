@@ -1,4 +1,8 @@
+package TableModel;
 
+
+import ADT.List;
+import Interface.ListInterface;
 import Domain.FoodOrder;
 import javax.swing.table.AbstractTableModel;
 
@@ -14,6 +18,7 @@ import javax.swing.table.AbstractTableModel;
 public class orderTableModel extends AbstractTableModel {
 
     private ListInterface<FoodOrder> contents = new List<>();
+    int row;
     String[] columns = {"Food Name", "Price", "Quantity", "Total Price"};
 
     public orderTableModel(ListInterface<FoodOrder> contents){
@@ -32,7 +37,11 @@ public class orderTableModel extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return 4;
+    }
+    
+    public void setRowCount(int row){
+        this.row = row;
     }
 
     @Override

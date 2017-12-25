@@ -1,18 +1,13 @@
+package Assignment;
 
+
+import ADT.List;
+import Interface.ListInterface;
 import javax.swing.table.TableModel;
 import Domain.Menu;
-import DA.MenuDA;
 import Domain.FoodOrder;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import DA.FoodOrderDA;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -23,23 +18,16 @@ import DA.FoodOrderDA;
  *
  * @author BryanLee
  */
-public class MenuJFrame extends javax.swing.JFrame {
+public class Restaurant2Menu extends javax.swing.JFrame {
 
     Menu menu = new Menu();
-    MenuDA menuDA = new MenuDA();
-    FoodOrderDA foodOrderDA = new FoodOrderDA();
-    ResultSet rs = null;
-    private String foodID = null;
-    private double price = 0.0;
-    private String foodName = null;
-    private double totalPrice = 0.0;
-    private int quantity = 0;
+    String restaurantName = "Restaurant 2";
     public static ListInterface<FoodOrder> orderFoodList = new List<>();
 
     /**
      * Creates new form MenuJFrame
      */
-    public MenuJFrame() {
+    public Restaurant2Menu() {
         initComponents();
         showMenuTable();
     }
@@ -281,59 +269,25 @@ public class MenuJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_menuTableMouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        //JButton button = (JButton) evt.getSource();
         String q = JOptionPane.showInputDialog("Quantity");
         int quan = Integer.parseInt(q);
-        totalPrice = price * quantity;
-        int orderID = orderFoodList.generateOrderID();
-        FoodOrder foodorder1 = new FoodOrder(orderID, menu.getFoodName(), menu.getFoodPrice(), quan, totalPrice);
+        double totalPrice = menu.getFoodPrice() * quan;
+        FoodOrder foodorder1 = new FoodOrder(restaurantName, menu.getFoodName(), menu.getFoodPrice(), quan, totalPrice);
 
-        orderFoodList.add(foodorder1);
-        System.out.println("List : " + orderFoodList);
-        //JOptionPane.showMessageDialog(this, menu.getFoodName());
-//        foodName = menu.getFoodName();
-//        rs = menuDA.selectRecord(foodName);
-//
-//        try {
-//            if (rs.next()) {
-//                price = rs.getDouble(4);
-//                //foodName = rs.getString(2);
-//                quantity = quan;
-//                totalPrice = price * quantity;
-//                foodOrderDA.addRecord(foodName, price, quantity, totalPrice);
-//
-//                DefaultTableModel model = (DefaultTableModel) menuTable.getModel();
-//                model.setRowCount(0);
-//                JOptionPane.showMessageDialog(this, "Food added into cart!");
-//                showMenuTable();
-//            }
-//        } catch (SQLException ex) {
-//            Logger.getLogger(MenuJFrame.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        orderFoodList.add(foodorder1);//        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void menuButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuButtonActionPerformed
-        new MenuJFrame().setVisible(true);
+        new Restaurant().setVisible(true);
         dispose();
     }//GEN-LAST:event_menuButtonActionPerformed
 
     private void cartButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cartButtonActionPerformed
-        new Assignment().setVisible(true);
+        new Cart().setVisible(true);
         dispose();
     }//GEN-LAST:event_cartButtonActionPerformed
 
     public void showMenuTable() {
-//        ArrayList<Menu> List = menuDA.retrieveRecord();
-//        DefaultTableModel model = (DefaultTableModel) menuTable.getModel();
-//        Object[] col = new Object[3];
-//        for (int a = 0; a < List.size(); a++) {
-//            //row[0] = List.get(a).getFoodID();
-//            col[0] = List.get(a).getFoodName();
-//            col[1] = List.get(a).getFoodDesc();
-//            col[2] = List.get(a).getFoodPrice();
-//
-//            model.addRow(col);
-//        }
         DefaultTableModel model = (DefaultTableModel) menuTable.getModel();
 
         model.addRow(new Object[]{"Double Cheese Chicken Burger", "Double the chicken and the cheese", 10.9});
@@ -359,20 +313,21 @@ public class MenuJFrame extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MenuJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Restaurant2Menu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MenuJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Restaurant2Menu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MenuJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Restaurant2Menu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MenuJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Restaurant2Menu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MenuJFrame().setVisible(true);
+                new Restaurant2Menu().setVisible(true);
             }
         });
     }
